@@ -1,0 +1,75 @@
+.pedidos-container {
+  padding: 16px;
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+.pedido-card {
+  background: white;
+  border-radius: 8px;
+  margin-bottom: 16px;
+  padding: 16px;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+
+  &.pedido-pronto {
+    border-left: 4px solid #28a745;
+  }
+}
+
+.pedido-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 16px;
+
+  .pedido-title {
+    font-weight: bold;
+    color: #333;
+  }
+
+  .pedido-id {
+    color: #666;
+  }
+}
+
+.pedido-info {
+  .info-row {
+    display: flex;
+    margin-bottom: 8px;
+
+    .label {
+      min-width: 80px;
+      color: #666;
+    }
+
+    .value {
+      color: #333;
+      flex: 1;
+    }
+  }
+}
+
+.pedido-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 16px;
+  padding-top: 16px;
+  border-top: 1px solid #eee;
+
+  .status {
+    padding: 4px 8px;
+    border-radius: 4px;
+    font-size: 14px;
+
+    &.status-pronto {
+      background: #28a745;
+      color: white;
+    }
+  }
+
+  .valor {
+    font-weight: bold;
+    color: #333;
+  }
+}
