@@ -73,3 +73,22 @@
     color: #333;
   }
 }
+  .pedido-action {
+    display: flex; /* Torna o container do botão flexível */
+    justify-content: center; /* Centraliza o botão horizontalmente */
+    margin-top: 15px; /* Adiciona um espaçamento superior (opcional) */
+  }
+
+  .btn-iniciar-trajeto {
+    padding: 10px 20px; /* Tamanho do botão */
+    background-color: #007bff; /* Cor de fundo */
+    color: white; /* Cor do texto */
+    border: none; /* Remove a borda padrão */
+    border-radius: 4px; /* Bordas arredondadas */
+    cursor: pointer; /* Cursor de ponteiro para indicar interatividade */
+  }
+
+  .btn-iniciar-trajeto:hover {
+    background-color: #0056b3; /* Cor de fundo ao passar o mouse */
+  }
+

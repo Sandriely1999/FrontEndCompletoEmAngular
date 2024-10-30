@@ -33,5 +33,16 @@ export class EntregadorComponent implements OnInit {
     });
   }
 
-
+  // Novo método para iniciar o trajeto
+  iniciarTrajeto(orderId: number) {
+    this.pedidoService.trocarStatusParaEnviando(orderId).subscribe({
+      next: () => {
+        console.log(`Status do pedido #${orderId} atualizado para Enviando`);
+        this.carregarPedidos(); // Recarrega os pedidos para obter a atualização
+      },
+      error: (erro) => {
+        console.error(`Erro ao iniciar o trajeto do pedido #${orderId}:`, erro);
+      }
+    });
+  }
 }

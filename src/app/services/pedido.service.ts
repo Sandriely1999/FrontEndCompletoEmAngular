@@ -16,4 +16,8 @@ export class PedidoService {
   listaPedidosPronto(): Observable<OrderResponse[]> {
     return this.http.get<OrderResponse[]>(`${this.apiUrl}/listaPedidosPronto`);
   }
+
+  trocarStatusParaEnviando(orderId: number): Observable<void> {
+    return this.http.put<void>(`${this.apiUrl}/trocarStatusParaEnviando/${orderId}`, {});
+  }
 }

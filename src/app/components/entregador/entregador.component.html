@@ -2,29 +2,33 @@
   <div *ngFor="let order of orderResponses" class="pedido-card">
     <div class="pedido-header">
       <span class="pedido-title">PEDIDO</span>
-      <span class="pedido-id">#{{order.orderId}}</span>
+      <span class="pedido-id">#{{ order.orderId }}</span>
     </div>
 
     <div class="pedido-info">
       <div class="info-row">
         <span class="label">Nome:</span>
-        <span class="value">{{order.userResponse.name}}</span>
+        <span class="value">{{ order.userResponse.name }}</span>
       </div>
       <div class="info-row">
         <span class="label">Telefone:</span>
-        <span class="value">{{order.userResponse.phone}}</span>
+        <span class="value">{{ order.userResponse.phone }}</span>
       </div>
       <div class="info-row">
         <span class="label">Endereço:</span>
-        <span class="value">{{order.userResponse.address}}</span>
+        <span class="value">{{ order.userResponse.address }}</span>
       </div>
     </div>
 
     <div class="pedido-footer">
       <span class="status">
-        {{order.orderStatus}}
+        {{ order.orderStatus }}
       </span>
-      <span class="valor">R$ {{order.totalPrice.toFixed(2)}}</span>
+      <span class="valor">R$ {{ order.totalPrice.toFixed(2) }}</span>
+    </div>
+
+    <div class="pedido-action">
+      <button class="btn-iniciar-trajeto" (click)="iniciarTrajeto(order.orderId)">Iniciar Trajeto</button>
     </div>
   </div>
 </div>
