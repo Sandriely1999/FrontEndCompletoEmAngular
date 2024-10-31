@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { PedidoService } from '../../services/pedido.service';
 import {CommonModule} from "@angular/common";
 import {OrderResponse} from '../../models/responses/order.response';
-import {UserResponse} from '../../models/responses/user.response';
+
 
 @Component({
   selector: 'app-entregador',
@@ -14,7 +14,7 @@ import {UserResponse} from '../../models/responses/user.response';
 
 export class EntregadorComponent implements OnInit {
   orderResponses: OrderResponse[] = [];
-  //userResponse: UserResponse;
+
 
   constructor(private pedidoService: PedidoService) {}
 

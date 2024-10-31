@@ -1,0 +1,83 @@
+<div class="kitchen-dashboard">
+  <!-- Orders Section -->
+  <section class="orders-section">
+    <h2>Pedidos em Preparação</h2>
+    <div class="orders-grid">
+      <div *ngFor="let order of orders" class="order-card">
+        <div class="order-header">
+          <span class="order-id">Pedido #{{order.orderId}}</span>
+          <span class="order-time">{{order.dataHora | date:'HH:mm'}}</span>
+        </div>
+        <div class="order-customer">Cliente: {{order.userResponse.name}}</div>
+        <div class="order-items">
+          <div *ngFor="let item of order.orderItemsResponse" class="order-item">
+            <span>{{item.quantity}}x</span>
+            <span>{{item.dishResponse.name}}</span>
+          </div>
+        </div>
+        <div class="order-footer">
+          <span class="order-total">Total: R$ {{order.totalPrice | number:'1.2-2'}}</span>
+          <button class="ready-button" (click)="markOrderAsReady(order.orderId)">
+            Marcar como Pronto
+          </button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Menu Section -->
+  <section class="menu-section">
+    <div class="menu-header">
+      <h2>Catálogo de Produtos</h2>
+      <button class="add-dish-button" (click)="openDishModal()">
+        Adicionar Novo Prato
+      </button>
+    </div>
+
+    <div class="dishes-grid">
+      <div *ngFor="let dish of dishes" class="dish-card">
+        <img *ngIf="dish.image" [src]="dish.image" [alt]="dish.name" class="dish-image">
+        <div class="dish-info">
+          <h3>{{dish.name}}</h3>
+          <p>{{dish.description}}</p>
+          <p class="dish-price">R$ {{dish.price | number:'1.2-2'}}</p>
+        </div>
+        <div class="dish-actions">
+          <button class="edit-button" (click)="openDishModal(dish)">Editar</button>
+          <button class="toggle-button" (click)="toggleDishAvailability(dish.dishId)">
+            {{dish.availability ? 'Desativar' : 'Ativar'}}
+          </button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Dish Modal -->
+  <div *ngIf="showDishModal" class="modal">
+    <div class="modal-content">
+      <h2>{{selectedDish ? 'Editar Prato' : 'Novo Prato'}}</h2>
+      <form [formGroup]="dishForm" (ngSubmit)="saveDish()">
+        <div class="form-group">
+          <label for="name">Nome</label>
+          <input id="name" type="text" formControlName="name">
+        </div>
+        <div class="form-group">
+          <label for="description">Descrição</label>
+          <textarea id="description" formControlName="description"></textarea>
+        </div>
+        <div class="form-group">
+          <label for="price">Preço</label>
+          <input id="price" type="number" formControlName="price" step="0.01">
+        </div>
+        <div class="form-group">
+          <label for="imageUrl">URL da Imagem</label>
+          <input id="imageUrl" type="text" formControlName="imageUrl">
+        </div>
+        <div class="modal-actions">
+          <button type="button" (click)="showDishModal = false">Cancelar</button>
+          <button type="submit" [disabled]="!dishForm.valid">Salvar</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
