@@ -6,18 +6,14 @@
 
   <app-product-carousel
     [dishes$]="dishes$"
-    [addToOrder]="addToOrder">
+    [addToOrder]="addToOrder.bind(this)">
   </app-product-carousel>
 
-
   <app-order-summary
-    [selectedProducts]="selectedProducts"
+    [selectedOrderItems]="(selectedOrderItems$ | async) ?? []"
     [removeFromOrder]="removeFromOrder.bind(this)"
     [total]="total">
   </app-order-summary>
 
-  <app-delivery-info></app-delivery-info>
-
-
-
+  <app-delivery-info (startOrder)="handleOrderStart($event)"></app-delivery-info>
 </div>

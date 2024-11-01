@@ -10,11 +10,11 @@
         </tr>
       </thead>
       <tbody>
-        <tr *ngFor="let product of selectedProducts">
-          <td>{{ product.name }}</td>
-          <td class="product-price">R$ {{ product.price.toFixed(2) }}</td>
+        <tr *ngFor="let product of selectedOrderItems">
+          <td>{{ product.dishResponse.name }}</td>
+          <td class="product-price">R$ {{ product.dishResponse.price.toFixed(2) }}</td>
           <td>
-            <button class="remove-button" (click)="removeFromOrder(product)">Remover</button>
+            <button class="remove-button" (click)="removeFromOrder(product.dishResponse)">Remover</button>
           </td>
         </tr>
       </tbody>
@@ -28,5 +28,5 @@
     <div class="order-summary-total">
       <span>Total:</span>
       <span>R$ {{ totalOrder.toFixed(2) }}</span>
-    </div>    
+    </div>
 </mat-card>

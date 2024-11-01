@@ -1,7 +1,10 @@
-import { Component } from '@angular/core';
-import {MatStepperModule} from '@angular/material/stepper';
-import {ButtonModule} from 'primeng/button';
-import {MatCardModule} from '@angular/material/card';
+import { Component, OnInit, Input } from '@angular/core';
+import { MatStepperModule } from '@angular/material/stepper';
+import { ButtonModule } from 'primeng/button';
+import { MatCardModule } from '@angular/material/card';
+import {NewOrderRequest} from '../../../models/requests/order.request';
+import {OrderStatus} from '../../../models/orderstatus.enum';
+import {PedidoService} from '../../../services/pedido.service';
 
 
 @Component({
@@ -15,24 +18,59 @@ import {MatCardModule} from '@angular/material/card';
   templateUrl: './order-status.component.html',
   styleUrls: ['./order-status.component.css']
 })
-export class OrderStatusComponent {
-  currentStep = 0; // Controla o status atual do pedido.
-  pedidoEnviado = false; // Nova propriedade para controlar se o pedido foi enviado.
+export class OrderStatusComponent implements OnInit {
+  @Input() newOrderRequest!: NewOrderRequest;
+  currentStatus: OrderStatus = OrderStatus.PREPARANDO;
 
-  nextStep() //Esse é um método da classe que incrementa o valor de currentStep em 1, fazendo com que o status do pedido avance para a próxima etapa
-  {
-    this.currentStep++;
+  constructor(private pedidoService: PedidoService) {}
+
+  ngOnInit(): void {
+    this.createOrder();
   }
 
-  prevStep() //Método da classe que decrementa o valor de currentStep em 1, fazendo com que o status do pedido volte para a etapa anterior.
-  //Verificar nessidade desse método.
-  {
-    this.currentStep--;
+  createOrder() {
+    this.pedidoService.criarPedido(this.newOrderRequest).subscribe({
+      next: (response: any) => { // Adiciona o tipo 'any' para evitar erro TS7006
+        console.log('Pedido criado com sucesso:', response);
+        this.currentStatus = OrderStatus.PREPARANDO;
+      },
+      error: (error:any) => {
+        console.error('Erro ao criar o pedido:', error);
+      }
+    });
   }
 
-  onPedidoEnviado() {
-    this.pedidoEnviado = true; // Atualiza a propriedade quando o pedido é enviado
-    this.currentStep = 1; // Avança para o primeiro passo
+  nextStatus() {
+    switch (this.currentStatus) {
+      case OrderStatus.PREPARANDO:
+        this.currentStatus = OrderStatus.PRONTO;
+        break;
+      case OrderStatus.PRONTO:
+        this.currentStatus = OrderStatus.ENVIANDO;
+        break;
+      case OrderStatus.ENVIANDO:
+        this.currentStatus = OrderStatus.ENTREGUE;
+        break;
+      case OrderStatus.ENTREGUE:
+        // Do nothing, order is complete
+        break;
+    }
+  }
+
+  prevStatus() {
+    switch (this.currentStatus) {
+      case OrderStatus.PRONTO:
+        this.currentStatus = OrderStatus.PREPARANDO;
+        break;
+      case OrderStatus.ENVIANDO:
+        this.currentStatus = OrderStatus.PRONTO;
+        break;
+      case OrderStatus.ENTREGUE:
+        this.currentStatus = OrderStatus.ENVIANDO;
+        break;
+      case OrderStatus.PREPARANDO:
+        // Do nothing, order is at the initial stage
+        break;
+    }
   }
 }
-

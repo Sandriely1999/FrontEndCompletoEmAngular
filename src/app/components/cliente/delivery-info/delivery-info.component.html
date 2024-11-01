@@ -1,12 +1,86 @@
 <mat-card class="order-card">
-    <h2 class="order-title">Dados de Entrega</h2>
-    <form>
-      <input type="text" pInputText placeholder="Nome" required formControlName="nome" />
-      <input type="text" pInputText placeholder="Telefone" required formControlName="telefone" />
-      <input type="text" pInputText placeholder="Endereço" required formControlName="endereco" />
-      <p-button type="button" (click)="enviarPedido($event)" label="Enviar Pedido" styleClass="p-button-danger"></p-button>
+  <mat-card-header>
+    <mat-card-title>
+      <h2 class="order-title">Dados de Entrega</h2>
+    </mat-card-title>
+  </mat-card-header>
+
+  <mat-card-content>
+    <form [formGroup]="form" (ngSubmit)="enviarPedido($event)">
+      <!-- Campo Nome -->
+      <mat-form-field appearance="outline">
+        <mat-label>Nome</mat-label>
+        <input
+          matInput
+          formControlName="nome"
+          placeholder="Digite seu nome completo"
+        >
+        <mat-error *ngIf="form.get('nome')?.invalid && form.get('nome')?.touched">
+          Nome é obrigatório e deve ter pelo menos 3 caracteres
+        </mat-error>
+      </mat-form-field>
+
+      <!-- Campo Telefone -->
+      <mat-form-field appearance="outline">
+        <mat-label>Telefone</mat-label>
+        <input
+          matInput
+          formControlName="telefone"
+          placeholder="(00) 00000-0000"
+          mask="(00) 00000-0000"
+        >
+        <mat-error *ngIf="form.get('telefone')?.invalid && form.get('telefone')?.touched">
+          Telefone é obrigatório (10 ou 11 dígitos)
+        </mat-error>
+      </mat-form-field>
+
+      <!-- Campo Endereço -->
+      <mat-form-field appearance="outline">
+        <mat-label>Endereço</mat-label>
+        <input
+          matInput
+          formControlName="endereco"
+          placeholder="Digite seu endereço completo"
+        >
+        <mat-error *ngIf="form.get('endereco')?.invalid && form.get('endereco')?.touched">
+          Endereço é obrigatório e deve ter pelo menos 5 caracteres
+        </mat-error>
+      </mat-form-field>
+
+      <!-- Método de Pagamento -->
+      <div class="payment-methods-section">
+        <label class="payment-section-title">Método de Pagamento</label>
+        <mat-radio-group formControlName="paymentMethod" class="payment-options">
+          <mat-radio-button
+            *ngFor="let method of paymentMethods"
+            [value]="method"
+            class="payment-option"
+          >
+            <div class="payment-label">
+              <mat-icon>{{ getPaymentIcon(method) }}</mat-icon>
+              <span>{{ getPaymentLabel(method) }}</span>
+            </div>
+          </mat-radio-button>
+        </mat-radio-group>
+        <mat-error *ngIf="form.get('paymentMethod')?.invalid && form.get('paymentMethod')?.touched">
+          Selecione um método de pagamento
+        </mat-error>
+      </div>
+
+      <!-- Total do Pedido -->
+      <div class="total-section">
+        <h3 class="total-title">Total do Pedido</h3>
+        <p class="total-value">R$ {{ totalValue.toFixed(2) }}</p>
+      </div>
+
+      <!-- Botão de Envio -->
+      <p-button
+        type="submit"
+        [disabled]="form.invalid || !hasItems"
+        styleClass="p-button-primary p-button-rounded"
+        [label]="hasItems ? 'Finalizar Pedido - R$ ' + totalValue.toFixed(2) : 'Adicione itens ao carrinho'"
+        [icon]="form.valid && hasItems ? 'pi pi-send' : 'pi pi-shopping-cart'"
+      ></p-button>
     </form>
+  </mat-card-content>
 </mat-card>
-
-
-  
