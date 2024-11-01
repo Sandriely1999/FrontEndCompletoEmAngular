@@ -1,0 +1,45 @@
+mat-card {
+  max-width: 800px;
+  margin-top: 30px auto;
+}
+
+.order-card {
+  max-width: 800px;
+  margin: 20px auto;
+  padding: 20px;
+  text-align: center;
+  background-color: #f8f9fa;
+}
+
+.order-title {
+  font-size: 24px;
+  font-weight: bold;
+  color: #333;
+  margin-bottom: 5px;
+}
+
+form {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+/* Responsividade */
+@media (max-width: 600px) {
+  .order-status-card {
+    padding: 10px;
+  }
+  
+    .order-title {
+    font-size: 20px;
+  }
+
+  input[pInputText] {
+    font-size: 14px; /* Reduzir o tamanho da fonte dos inputs */
+  }
+
+  .form-button {
+    font-size: 14px; /* Reduzir o tamanho da fonte do botão */
+    padding: 10px; /* Ajustar o padding do botão */
+  }
+}

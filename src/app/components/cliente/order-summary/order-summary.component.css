@@ -1,0 +1,65 @@
+
+  mat-card {
+    max-width: 400px;
+    margin: 20px auto;
+  }
+
+  .order-summary-card {
+    max-width: 800px;
+    margin: 20px auto;
+    padding: 20px;
+    background-color: #f8f9fa;
+  }
+  
+  .order-summary-title {
+    font-size: 24px;
+    font-weight: bold;
+    color: #333;
+    margin-bottom: 10px;
+    text-align: center;
+  }
+
+  .order-summary {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 16px;
+    margin-bottom: 16px;
+  }
+  
+  .order-summary th,
+  .order-summary td {
+    padding: 12px;
+    text-align: left;
+    border-bottom: 1px solid #ddd;
+  }
+  
+  .order-summary th {
+    background-color: #f2f2f2;
+  }
+  
+  .product-price {
+    text-align: right;
+  }
+  
+  .remove-button {
+    background-color: #ff4d4d;
+    color: white;
+    border: none;
+    padding: 8px 16px;
+    cursor: pointer;
+  }
+  
+  .order-summary-fee {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 1rem;
+  }
+
+  .order-summary-total {
+    display: flex;
+    justify-content: space-between;
+    font-weight: bold;
+    font-size: 16px;
+    margin-top: 0.5rem;
+  }
+  

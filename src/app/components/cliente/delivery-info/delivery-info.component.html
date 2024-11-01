@@ -1,0 +1,12 @@
+<mat-card class="order-card">
+    <h2 class="order-title">Dados de Entrega</h2>
+    <form>
+      <input type="text" pInputText placeholder="Nome" required formControlName="nome" />
+      <input type="text" pInputText placeholder="Telefone" required formControlName="telefone" />
+      <input type="text" pInputText placeholder="Endereço" required formControlName="endereco" />
+      <p-button type="button" (click)="enviarPedido($event)" label="Enviar Pedido" styleClass="p-button-danger"></p-button>
+    </form>
+</mat-card>
+
+
+  

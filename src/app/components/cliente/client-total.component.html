@@ -1,0 +1,23 @@
+<div class="container">
+  <header>
+    <h1>VEM COMER</h1>
+    <p>PEÇA FÁCIL, COMA FELIZ</p>
+  </header>
+
+  <app-product-carousel
+    [dishes$]="dishes$"
+    [addToOrder]="addToOrder">
+  </app-product-carousel>
+
+
+  <app-order-summary
+    [selectedProducts]="selectedProducts"
+    [removeFromOrder]="removeFromOrder.bind(this)"
+    [total]="total">
+  </app-order-summary>
+
+  <app-delivery-info></app-delivery-info>
+
+
+
+</div>

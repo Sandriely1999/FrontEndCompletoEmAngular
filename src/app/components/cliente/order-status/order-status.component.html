@@ -1,0 +1,33 @@
+  <mat-card class="order-status-card">
+    <h2 class="status-title">Status do Pedido</h2>
+    <p class="status-subtitle">Aguarde alguns minutos, logo menos chegaremos com o seu Pedido!</p>
+  
+    <mat-vertical-stepper linear>
+      <mat-step>
+        <ng-template matStepLabel>Pedido em Andamento</ng-template>
+        <p class="order-status-subtitle">Seu pedido está sendo preparado.</p>
+      </mat-step>
+    
+      <mat-step>
+        <ng-template matStepLabel>Pedido Pronto</ng-template>
+        <p class="order-status-subtitle">Seu pedido está pronto para ser retirado e logo será enviado.</p>
+      </mat-step>
+    
+      <mat-step>
+        <ng-template matStepLabel>Pedido Enviado</ng-template>
+        <p class="order-status-subtitle">Aguarde mais um pouco, seu pedido já saiu para entrega.</p>
+      </mat-step>
+    
+      <mat-step>
+        <ng-template matStepLabel>Pedido Entregue</ng-template>
+        <p class="order-status-subtitle">Seu pedido foi finalizado com sucesso! Por favor, confirme sua entrega.</p>
+        <div>
+          <p-button label="Confirmar Entrega Pedido" styleClass="p-button-danger"> </p-button>
+        </div>
+      </mat-step>
+    </mat-vertical-stepper>
+
+  
+  </mat-card>
+  
+  

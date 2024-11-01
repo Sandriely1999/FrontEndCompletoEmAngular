@@ -1,0 +1,74 @@
+  mat-card {
+    max-width: 400px;
+    margin: 20px auto;
+  }
+  
+  mat-card-title {
+    font-size: 24px;
+    font-weight: bold;
+  }
+  
+  mat-card-content p {
+    font-size: 16px;
+  }
+  
+  mat-vertical-stepper {
+    flex-direction: column;
+    font-size: 14px;
+    color: #666;
+    margin-bottom: 20px;
+  }
+
+  .order-status-card {
+    max-width: 800px;
+    margin: 20px auto;
+    padding: 20px;
+    text-align: center;
+    background-color: #f8f9fa;
+  }
+  
+  .status-title {
+    font-size: 24px;
+    font-weight: bold;
+    color: #333;
+    margin-bottom: 5px;
+  }
+  
+  .status-subtitle {
+    font-size: 14px;
+    color: #666;
+    margin-bottom: 20px;
+  }
+  
+
+  .status-button {
+    background-color: #d32f2f;
+    color: #fff;
+    width: 100%;
+    padding: 10px;
+    font-size: 16px;
+    font-weight: bold;
+    border-radius: 5px;
+  }
+  
+  
+
+  @media (max-width: 768px) {
+    .order-status-card {
+      padding: 10px;
+    }
+  
+    .status-title {
+      font-size: 20px;
+    }
+  
+    .status-subtitle {
+      font-size: 12px;
+    }
+  
+    .status-button {
+      font-size: 14px;
+    }
+  }
+  
+  
