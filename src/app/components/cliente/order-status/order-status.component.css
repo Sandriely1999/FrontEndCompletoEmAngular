@@ -1,74 +1,144 @@
-  mat-card {
-    max-width: 400px;
-    margin: 20px auto;
-  }
-  
-  mat-card-title {
-    font-size: 24px;
-    font-weight: bold;
-  }
-  
-  mat-card-content p {
-    font-size: 16px;
-  }
-  
-  mat-vertical-stepper {
-    flex-direction: column;
-    font-size: 14px;
-    color: #666;
-    margin-bottom: 20px;
+/* Card Styles */
+.order-status-card {
+  max-width: 800px;
+  margin: 20px auto;
+  padding: 20px;
+  background-color: #f8f9fa;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.status-title {
+  font-size: 24px;
+  font-weight: bold;
+  color: #333;
+  margin-bottom: 5px;
+  text-align: center;
+}
+
+.status-subtitle {
+  font-size: 14px;
+  color: #666;
+  margin-bottom: 20px;
+  text-align: center;
+}
+
+/* Stepper Customization */
+::ng-deep .mat-stepper-vertical {
+  background-color: transparent !important;
+}
+
+::ng-deep .mat-vertical-stepper-header {
+  padding: 16px 0 !important;
+}
+
+::ng-deep .mat-step-header {
+  &:hover {
+    background-color: rgba(0, 0, 0, 0.04);
   }
 
-  .order-status-card {
-    max-width: 800px;
-    margin: 20px auto;
-    padding: 20px;
-    text-align: center;
-    background-color: #f8f9fa;
+  .mat-step-icon {
+    background-color: #9e9e9e;
   }
-  
-  .status-title {
-    font-size: 24px;
-    font-weight: bold;
+
+  .mat-step-icon-selected {
+    background-color: #d32f2f !important; /* Mantendo a cor vermelha do tema */
+  }
+
+  .mat-step-icon-state-done {
+    background-color: #4caf50 !important; /* Verde para estados concluídos */
+  }
+
+  .mat-step-label {
+    font-size: 16px;
     color: #333;
-    margin-bottom: 5px;
   }
-  
+
+  .mat-step-label-selected {
+    font-weight: bold;
+  }
+}
+
+::ng-deep .mat-vertical-content {
+  padding: 0 24px 24px 24px !important;
+}
+
+/* Content Styles */
+mat-card-content p {
+  font-size: 16px;
+  line-height: 1.5;
+  color: #666;
+  margin: 8px 0;
+}
+
+/* Button Styles */
+.status-button {
+  background-color: #d32f2f;
+  color: #fff;
+  width: 100%;
+  max-width: 300px;
+  padding: 12px;
+  font-size: 16px;
+  font-weight: bold;
+  border-radius: 5px;
+  border: none;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  margin: 20px auto;
+  display: block;
+
+  &:hover {
+    background-color: #b71c1c;
+  }
+
+  &:disabled {
+    background-color: #cccccc;
+    cursor: not-allowed;
+  }
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .order-status-card {
+    margin: 10px;
+    padding: 10px;
+  }
+
+  .status-title {
+    font-size: 20px;
+  }
+
   .status-subtitle {
-    font-size: 14px;
-    color: #666;
-    margin-bottom: 20px;
+    font-size: 12px;
   }
-  
+
+  ::ng-deep .mat-step-label {
+    font-size: 14px;
+  }
+
+  mat-card-content p {
+    font-size: 14px;
+  }
 
   .status-button {
-    background-color: #d32f2f;
-    color: #fff;
-    width: 100%;
+    font-size: 14px;
     padding: 10px;
-    font-size: 16px;
-    font-weight: bold;
-    border-radius: 5px;
   }
-  
-  
+}
 
-  @media (max-width: 768px) {
-    .order-status-card {
-      padding: 10px;
-    }
-  
-    .status-title {
-      font-size: 20px;
-    }
-  
-    .status-subtitle {
-      font-size: 12px;
-    }
-  
-    .status-button {
-      font-size: 14px;
-    }
-  }
-  
-  
+/* Animation for status changes */
+::ng-deep .mat-step-icon {
+  transition: background-color 0.3s ease;
+}
+
+/* Accessibility improvements */
+::ng-deep .mat-step-header:focus {
+  outline: 2px solid #d32f2f;
+  outline-offset: 2px;
+}
+
+/* Loading state styles */
+.loading-state {
+  text-align: center;
+  padding: 20px;
+  color: #666;
+}

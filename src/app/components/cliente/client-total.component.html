@@ -1,19 +1,16 @@
 <div class="container">
-  <header>
-    <h1>VEM COMER</h1>
-    <p>PEÇA FÁCIL, COMA FELIZ</p>
+  <header class="text-center mb-8">
+    <h1 class="text-3xl font-bold mb-2">VEM COMER</h1>
+    <p class="text-lg">PEÇA FÁCIL, COMA FELIZ</p>
   </header>
 
-  <app-product-carousel
-    [dishes$]="dishes$"
-    [addToOrder]="addToOrder.bind(this)">
+  <app-product-carousel [dishes$]="dishes$">
   </app-product-carousel>
 
-  <app-order-summary
-    [selectedOrderItems]="(selectedOrderItems$ | async) ?? []"
-    [removeFromOrder]="removeFromOrder.bind(this)"
-    [total]="total">
+  <app-order-summary>
   </app-order-summary>
 
-  <app-delivery-info (startOrder)="handleOrderStart($event)"></app-delivery-info>
+  <app-delivery-info
+    (startOrder)="handleOrderStart($event)">
+  </app-delivery-info>
 </div>

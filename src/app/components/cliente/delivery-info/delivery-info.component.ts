@@ -1,22 +1,22 @@
-import { Component, OnInit, Output, EventEmitter, Input, OnDestroy } from '@angular/core';
-import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
-import { CommonModule } from '@angular/common';
-import { MatCardModule } from '@angular/material/card';
-import { MatFormFieldModule } from '@angular/material/form-field';
-import { MatInputModule } from '@angular/material/input';
-import { MatRadioModule } from '@angular/material/radio';
-import { MatIconModule } from '@angular/material/icon';
-import { ButtonModule } from 'primeng/button';
-import { Observable, Subscription, take } from 'rxjs';
-import { NgxMaskDirective, NgxMaskPipe } from 'ngx-mask';
+import {Component, EventEmitter, Input, OnDestroy, OnInit, Output} from '@angular/core';
+import {FormBuilder, FormGroup, ReactiveFormsModule, Validators} from '@angular/forms';
+import {CommonModule} from '@angular/common';
+import {MatCardModule} from '@angular/material/card';
+import {MatFormFieldModule} from '@angular/material/form-field';
+import {MatInputModule} from '@angular/material/input';
+import {MatRadioModule} from '@angular/material/radio';
+import {MatIconModule} from '@angular/material/icon';
+import {ButtonModule} from 'primeng/button';
+import {Observable, Subscription, take} from 'rxjs';
+import {NgxMaskDirective, NgxMaskPipe} from 'ngx-mask';
 
-import { NewOrderRequest } from '../../../models/requests/order.request';
-import { NewUserRequest } from '../../../models/requests/user.request';
-import { NewOrderItemRequest } from '../../../models/requests/orderItem.request';
-import { OrderItemsResponse } from '../../../models/responses/orderItems.response';
-import { DishResponse } from '../../../models/responses/dish.response';
-import { UserResponse } from '../../../models/responses/user.response';
-import { Pagamento } from '../../../models/pagamentos.enum';
+import {NewOrderRequest} from '../../../models/requests/order.request';
+import {NewUserRequest} from '../../../models/requests/user.request';
+import {NewOrderItemRequest} from '../../../models/requests/orderItem.request';
+import {OrderItemsResponse} from '../../../models/responses/orderItems.response';
+import {Pagamento} from '../../../models/pagamentos.enum';
+import {CartStateService} from '../../../services/cart-state.service';
+import {PedidoService} from '../../../services/pedido.service';
 
 @Component({
   selector: 'app-delivery-info',
@@ -46,7 +46,11 @@ export class DeliveryInfoComponent implements OnInit, OnDestroy {
   totalValue: number = 0;
   paymentMethods = Object.values(Pagamento).filter(value => typeof value === 'number');
 
-  constructor(private fb: FormBuilder) {}
+  constructor(
+    private fb: FormBuilder,
+    private cartState: CartStateService,
+    private pedidoService: PedidoService // Adicione o serviço aqui
+  ) {}
 
   ngOnInit(): void {
     this.form = this.fb.group({
@@ -56,12 +60,10 @@ export class DeliveryInfoComponent implements OnInit, OnDestroy {
       paymentMethod: [null, Validators.required]
     });
 
-    if (this.selectedItems$) {
-      this.subscription = this.selectedItems$.subscribe(items => {
-        this.hasItems = items.length > 0;
-        this.calculateTotal(items);
-      });
-    }
+    this.subscription = this.cartState.selectedItems$.subscribe(items => {
+      this.hasItems = items.length > 0;
+      this.calculateTotal(items);
+    });
   }
 
   calculateTotal(items: OrderItemsResponse[]): void {
@@ -117,7 +119,7 @@ export class DeliveryInfoComponent implements OnInit, OnDestroy {
   enviarPedido(event: Event) {
     event.preventDefault();
 
-    if (!this.selectedItems$) {
+    if (!this.hasItems) {
       console.error('Nenhum item selecionado');
       return;
     }
@@ -126,7 +128,7 @@ export class DeliveryInfoComponent implements OnInit, OnDestroy {
       const newUserRequest = this.createNewUserRequest();
       const paymentMethod = this.form.get('paymentMethod')?.value as Pagamento;
 
-      this.selectedItems$.pipe(
+      this.cartState.selectedItems$.pipe(
         take(1)
       ).subscribe({
         next: (items) => {
@@ -135,29 +137,25 @@ export class DeliveryInfoComponent implements OnInit, OnDestroy {
             return;
           }
 
-          // Verifica se todos os pratos estão disponíveis
-          const unavailableDishes = items
-            .filter(item => !item.dishResponse.availability)
-            .map(item => item.dishResponse.name);
-
-          if (unavailableDishes.length > 0) {
-            console.error('Alguns pratos não estão mais disponíveis:', unavailableDishes);
-            return;
-          }
-
           const orderItems = this.convertToOrderItemRequest(items);
-
           const newOrderRequest = new NewOrderRequest(
             orderItems,
             newUserRequest,
             paymentMethod
           );
 
-          this.startOrder.emit(newOrderRequest);
-          this.form.reset();
-        },
-        error: (error) => {
-          console.error('Erro ao processar pedido:', error);
+          // Envie o pedido usando o PedidoService
+          this.pedidoService.criarPedido(newOrderRequest).subscribe({
+            next: (response) => {
+              console.log('Pedido criado com sucesso:', response);
+              this.cartState.clearCart(); // Limpa o carrinho após o sucesso
+              this.form.reset();
+              // Aqui você pode adicionar navegação para a tela de status
+            },
+            error: (error) => {
+              console.error('Erro ao criar pedido:', error);
+            }
+          });
         }
       });
     } else {
