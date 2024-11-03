@@ -1,11 +1,11 @@
-import { Component, Inject, OnInit, OnDestroy } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { MatButtonModule } from '@angular/material/button';
-import { MatStepperModule } from '@angular/material/stepper';
-import { MatCardModule } from '@angular/material/card';
-import { MatDialogModule, MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
-import { OrderStatus} from '../../../models/orderstatus.enum';
-import { interval, Subscription } from 'rxjs';
+import {Component, Inject, OnDestroy, OnInit} from '@angular/core';
+import {CommonModule} from '@angular/common';
+import {MatButtonModule} from '@angular/material/button';
+import {MatStepperModule} from '@angular/material/stepper';
+import {MatCardModule} from '@angular/material/card';
+import {MAT_DIALOG_DATA, MatDialogModule, MatDialogRef} from '@angular/material/dialog';
+import {OrderStatus} from '../../../models/orderstatus.enum';
+import {BehaviorSubject, interval, Subscription, switchMap} from 'rxjs';
 import {PedidoService} from '../../../services/pedido.service';
 import {OrderResponse} from '../../../models/responses/order.response';
 
@@ -24,8 +24,10 @@ import {OrderResponse} from '../../../models/responses/order.response';
 })
 export class OrderStatusComponent implements OnInit, OnDestroy {
   OrderStatus = OrderStatus;
-  currentStatus: OrderStatus = OrderStatus.PREPARANDO;
-  updateSubscription?: Subscription;
+  private statusSubject = new BehaviorSubject<OrderStatus>(OrderStatus.PREPARANDO);
+  currentStatus$ = this.statusSubject.asObservable();
+  private updateSubscription?: Subscription;
+  isDeliveryConfirmed = false;
 
   constructor(
     @Inject(MAT_DIALOG_DATA) public data: { orderId: number },
@@ -34,23 +36,39 @@ export class OrderStatusComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit() {
-    this.updateOrderStatus();
-    // Poll for status updates every 10 seconds
-    this.updateSubscription = interval(10000).subscribe(() => {
-      this.updateOrderStatus();
+    // Configurar atualização periódica usando switchMap
+    this.updateSubscription = interval(5000).pipe(
+      switchMap(() => this.pedidoService.getPedidoById(this.data.orderId))
+    ).subscribe({
+      next: (order: OrderResponse) => {
+        this.statusSubject.next(order.orderStatus);
+        if (order.orderStatus === OrderStatus.ENVIANDO)
+        console.log(order.orderStatus);
+        console.log(this.currentStatus$)
+      },
+      error: (error) => {
+        console.error('Error fetching order status:', error);
+      }
     });
+
+    // Fazer a primeira chamada imediatamente
+    this.updateOrderStatus();
   }
 
   ngOnDestroy() {
     if (this.updateSubscription) {
       this.updateSubscription.unsubscribe();
     }
+    this.statusSubject.complete();
   }
 
   private updateOrderStatus() {
     this.pedidoService.getPedidoById(this.data.orderId).subscribe({
       next: (order: OrderResponse) => {
-        this.currentStatus = order.orderStatus;
+        this.statusSubject.next(order.orderStatus);
+        if (order.orderStatus === OrderStatus.ENVIANDO)
+        console.log(order.orderStatus);
+        console.log(this.currentStatus$)
       },
       error: (error) => {
         console.error('Error fetching order status:', error);
@@ -58,30 +76,52 @@ export class OrderStatusComponent implements OnInit, OnDestroy {
     });
   }
 
-  getStepCompleted(status: OrderStatus): boolean {
-    return this.currentStatus > status;
+
+  getCurrentStepIndex(): number {
+    const currentStatus = typeof this.statusSubject.value === 'string'
+      ? OrderStatus[this.statusSubject.value as keyof typeof OrderStatus]
+      : this.statusSubject.value;
+    return currentStatus;
   }
 
-  getStepState(status: OrderStatus): string {
-    if (this.currentStatus === status) {
-      return 'current';
+  isStepCompleted(status: OrderStatus): boolean {
+    const currentStatus = typeof this.statusSubject.value === 'string'
+      ? OrderStatus[this.statusSubject.value as keyof typeof OrderStatus]
+      : this.statusSubject.value;
+
+    if (this.isDeliveryConfirmed && status === OrderStatus.ENTREGUE) {
+      return true;
     }
-    if (this.currentStatus > status) {
-      return 'completed';
-    }
-    return 'pending';
+
+    return currentStatus > status;
   }
 
   confirmDelivery() {
-    this.pedidoService.pedidoEntregue(this.data.orderId).subscribe({
-      next: (response) => {
-        this.currentStatus = OrderStatus.ENTREGUE;
-        setTimeout(() => this.dialogRef.close(), 2000);
-      },
-      error: (error) => {
-        console.error('Error confirming delivery:', error);
-      }
-    });
+    if (!this.isDeliveryConfirmed && this.isEnviandoStatus()) {
+      this.isDeliveryConfirmed = true;
+      this.pedidoService.pedidoEntregue(this.data.orderId).subscribe({
+        next: () => {
+          this.statusSubject.next(OrderStatus.ENTREGUE);
+        },
+        error: (error) => {
+          console.error('Error confirming delivery:', error);
+        }
+      });
+    }
+  }
+
+  isEnviandoStatus(): boolean{
+    const currentStatus = typeof this.statusSubject.value === 'string'
+        ? OrderStatus[this.statusSubject.value as keyof typeof OrderStatus]
+        : this.statusSubject.value;
+    return currentStatus === OrderStatus.ENVIANDO;
+  }
+
+  isEntregueStatus(): boolean{
+    const currentStatus = typeof this.statusSubject.value === 'string'
+        ? OrderStatus[this.statusSubject.value as keyof typeof OrderStatus]
+        : this.statusSubject.value;
+    return currentStatus === OrderStatus.ENTREGUE;
   }
 
   close() {

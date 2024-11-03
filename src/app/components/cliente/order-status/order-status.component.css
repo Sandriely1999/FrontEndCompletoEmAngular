@@ -1,55 +1,121 @@
 .status-card {
   min-width: 350px;
   max-width: 500px;
-  margin: 1rem;
-  padding: 1rem;
-  background-color: white;
-  border-radius: 8px;
+  margin: 1rem auto;
+  padding: 1.5rem;
+  border-radius: 12px;
+  box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1) !important;
 }
 
-mat-card-header {
-  margin-bottom: 1rem;
-}
-
-mat-card-title {
+.status-title {
   font-size: 1.5rem;
-  font-weight: 500;
-  color: #333;
+  font-weight: 600;
+  color: #1f2937;
+  text-align: center;
+  margin-bottom: 0.5rem;
 }
 
 .status-message {
   text-align: center;
-  color: #666;
+  color: #6b7280;
   margin-bottom: 2rem;
+  font-size: 0.95rem;
 }
 
-::ng-deep .mat-step-header {
-  &.current-step .mat-step-icon {
-    background-color: #dc2626;
-  }
-
-  &.completed-step .mat-step-icon {
-    background-color: #16a34a;
-  }
-}
-
-.active-step {
-  color: #dc2626;
-  font-weight: bold;
-}
-
+/* Estilos do Material Stepper */
 ::ng-deep .mat-stepper-vertical {
   background: transparent !important;
 }
 
-.card-actions {
-  display: flex;
-  justify-content: flex-end;
-  gap: 1rem;
-  margin-top: 1rem;
-  padding: 1rem;
+::ng-deep .mat-step-header {
+  pointer-events: none;
+  background: transparent !important;
 }
 
-button {
-  min-width: 120px;
+::ng-deep .mat-step-icon-state-done {
+  background-color: #16a34a !important;
+  color: white !important;
+}
+
+/* Estilo customizado para o último step */
+.custom-step {
+  display: flex;
+  align-items: center;
+  padding: 24px 24px 24px 24px;
+  position: relative;
+  margin-left: 24px;
+}
+
+.custom-step::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0;
+  height: 100%;
+  border-left: 2px solid #e5e7eb;
+  margin-left: 12px;
+}
+
+.step-icon {
+  border-radius: 50%;
+  height: 24px;
+  width: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-right: 8px;
+}
+
+.step-number {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  background-color: #e5e7eb;  /* Default gray background */
+  color: #6b7280;  /* Default gray text */
+  font-size: 14px;
+  transition: all 0.3s ease;
+}
+
+/* Only change the background when the step is completed */
+.custom-step.completed .step-number {
+  background-color: #16a34a;  /* Green background when completed */
+  color: white;
+}
+
+.step-content {
+  display: flex;
+  align-items: center;
+}
+
+.step-label {
+  font-size: 14px;
+}
+
+/* Botão de confirmação */
+.step-with-button {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  gap: 1rem;
+}
+
+.step-with-button button {
+  pointer-events: auto !important;
+  cursor: pointer !important;
+}
+
+/* Ações do card */
+mat-card-actions {
+  padding: 1rem 0 0 0;
+  margin: 0;
+  display: flex;
+  justify-content: center;
+}
+
+mat-card-actions button {
+  color: #6b7280;
 }
