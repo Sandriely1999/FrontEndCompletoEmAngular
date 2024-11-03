@@ -1,0 +1,18 @@
+.client-page {
+  padding: 1rem;
+  position: relative;
+  min-height: 100vh;
+}
+
+.status-fab {
+  position: fixed;
+  bottom: 2rem;
+  right: 2rem;
+  z-index: 1000;
+  background-color: #dc2626 !important;
+  color: white !important;
+}
+
+.status-fab:hover {
+  background-color: #b91c1c !important;
+}

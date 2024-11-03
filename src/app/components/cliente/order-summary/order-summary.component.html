@@ -1,32 +1,38 @@
-<mat-card class="order-summary-card">
-    <h2 class="order-summary-title">Resumo do Pedido</h2>
+<mat-card class="summary-card">
+  <mat-card-header>
+    <mat-card-title>Resumo do Pedido</mat-card-title>
+  </mat-card-header>
 
-    <table class="order-summary">
-      <thead>
-        <tr>
-          <th>Produto</th>
-          <th>Preço</th>
-          <th></th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr *ngFor="let product of selectedOrderItems">
-          <td>{{ product.dishResponse.name }}</td>
-          <td class="product-price">R$ {{ product.dishResponse.price.toFixed(2) }}</td>
-          <td>
-            <button class="remove-button" (click)="removeFromOrder(product.dishResponse)">Remover</button>
-          </td>
-        </tr>
-      </tbody>
-    </table>
+  <mat-card-content>
+    <div class="summary-content">
+      @for (item of summaryItems; track item.dishId) {
+        <div class="summary-item">
+          <div class="item-info">
+            <span>{{item.quantity}}x</span>
+            <span>{{item.dish.name}}</span>
+          </div>
+          <div class="item-actions">
+            <span>R$ {{item.total.toFixed(2)}}</span>
+            <button mat-icon-button color="warn" (click)="removeItem(item.dishId)">
+              <mat-icon>delete</mat-icon>
+            </button>
+          </div>
+        </div>
+      }
 
-    <div class="order-summary-fee">
-      <span>Taxa de Entrega:</span>
-      <span>R$ {{ deliveryFee.toFixed(2) }}</span>
+      <div class="delivery-fee">
+        <div class="fee-info">
+          <span>Taxa de Entrega</span>
+          <span>R$ {{deliveryFee.toFixed(2)}}</span>
+        </div>
+      </div>
+
+      <div class="total-amount">
+        <div class="total-info">
+          <span>Total</span>
+          <span>R$ {{totalAmount.toFixed(2)}}</span>
+        </div>
+      </div>
     </div>
-
-    <div class="order-summary-total">
-      <span>Total:</span>
-      <span>R$ {{ totalOrder.toFixed(2) }}</span>
-    </div>
+  </mat-card-content>
 </mat-card>

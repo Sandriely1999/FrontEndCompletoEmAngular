@@ -1,1 +1,25 @@
-<app-client-total></app-client-total>
+<div class="client-page">
+  <h1>Faça seu Pedido</h1>
+
+  <app-dish-carousel
+    (orderItemsChange)="updateOrderItems($event)">
+  </app-dish-carousel>
+
+  <app-order-summary
+    [orderItems]="selectedOrderItems"
+    (orderItemsChange)="updateOrderItems($event)">
+  </app-order-summary>
+
+  <app-order-form
+    [orderItems]="selectedOrderItems"
+    (orderCreated)="onOrderCreated($event)">
+  </app-order-form>
+
+  <button
+    *ngIf="showStatusButton"
+    mat-fab
+    class="status-fab"
+    (click)="openOrderStatus()">
+    <mat-icon>local_shipping</mat-icon>
+  </button>
+</div>

@@ -33,6 +33,11 @@ export class PedidoService {
     return this.http.put<void>(`${this.ordersUrl}/trocarStatusParaEnviando/${orderId}`, {});
   }
 
+  // Novo método para confirmar entrega do pedido
+  pedidoEntregue(orderId: number): Observable<OrderResponse> {
+    return this.http.put<OrderResponse>(`${this.ordersUrl}/pedidoEntregue/${orderId}`, {});
+  }
+
   // Pratos
   getAllValidDishes(): Observable<DishResponse[]> {
     return this.http.get<DishResponse[]>(`${this.dishesUrl}/getAllValidDishes`);
@@ -40,10 +45,5 @@ export class PedidoService {
 
   getDishById(dishId: number): Observable<DishResponse> {
     return this.http.get<DishResponse>(`${this.dishesUrl}/${dishId}`);
-  }
-
-  // Método helper para verificar disponibilidade
-  checkDishesAvailability(dishIds: number[]): Observable<{[key: number]: boolean}> {
-    return this.http.post<{[key: number]: boolean}>(`${this.dishesUrl}/checkAvailability`, { dishIds });
   }
 }

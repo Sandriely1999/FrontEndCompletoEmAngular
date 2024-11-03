@@ -1,44 +1,26 @@
 @import '@angular/material/prebuilt-themes/azure-blue.css';
-@import 'primeng/resources/themes/lara-light-blue/theme.css';
-@import 'primeng/resources/primeng.min.css';
-@import 'primeicons/primeicons.css';
 
 /* Variáveis globais */
 :root {
   /* Cores principais */
-  --primary-color: #ff4d4d;
+  --primary-color: #dc2626;
   --secondary-color: #333;
+  --success-color: #16a34a;
   --background-color: #f8f9fa;
-  --border-color: #ced4da;
   --text-color: #333;
   --text-light: #666;
 
   /* Espaçamentos */
-  --spacing-xs: 5px;
   --spacing-sm: 10px;
   --spacing-md: 15px;
   --spacing-lg: 20px;
-  --spacing-xl: 30px;
 
   /* Sombras */
   --shadow-sm: 0 2px 4px rgba(0,0,0,0.1);
-  --shadow-md: 0 4px 8px rgba(0,0,0,0.2);
-
-  /* Tamanhos de container */
-  --container-width: 1200px;
-  --card-width: 800px;
-  --form-width: 500px;
 
   /* Tipografia */
-  --font-size-sm: 14px;
   --font-size-md: 16px;
   --font-size-lg: 20px;
-  --font-size-xl: 24px;
-
-  --primary-color: #1976d2;
-  --primary-color-rgb: 25, 118, 210;
-  --red-500: #f44336;
-
 }
 
 /* Reset básico */
@@ -49,54 +31,50 @@
 }
 
 body {
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+  font-family: Roboto, "Helvetica Neue", sans-serif;
   color: var(--text-color);
   line-height: 1.5;
   background-color: #fff;
+  margin: 0;
+  height: 100%;
 }
 
-/* Classes utilitárias */
-.card-container {
-  max-width: var(--card-width);
-  margin: var(--spacing-lg) auto;
-  padding: var(--spacing-lg);
-  background-color: var(--background-color);
-  box-shadow: var(--shadow-sm);
-  border-radius: 8px;
+/* Estilos do Stepper */
+.mat-step-header.current-step .mat-step-icon {
+  background-color: var(--primary-color) !important;
+  color: white !important;
 }
 
-.title {
-  font-size: var(--font-size-xl);
-  font-weight: bold;
-  color: var(--secondary-color);
-  margin-bottom: var(--spacing-md);
-  text-align: center;
+.mat-step-header.completed-step .mat-step-icon {
+  background-color: var(--success-color) !important;
+  color: white !important;
 }
 
-.text-center {
-  text-align: center;
+.mat-step-header .mat-step-icon-selected {
+  background-color: var(--primary-color) !important;
+  color: white !important;
 }
 
-.mt-1 { margin-top: var(--spacing-xs); }
-.mt-2 { margin-top: var(--spacing-sm); }
-.mt-3 { margin-top: var(--spacing-md); }
-.mt-4 { margin-top: var(--spacing-lg); }
-.mt-5 { margin-top: var(--spacing-xl); }
+.mat-step-header .mat-step-icon-state-done {
+  background-color: var(--success-color) !important;
+  color: white !important;
+}
 
-.mb-1 { margin-bottom: var(--spacing-xs); }
-.mb-2 { margin-bottom: var(--spacing-sm); }
-.mb-3 { margin-bottom: var(--spacing-md); }
-.mb-4 { margin-bottom: var(--spacing-lg); }
-.mb-5 { margin-bottom: var(--spacing-xl); }
+.mat-stepper-vertical-line::before {
+  border-left-color: var(--primary-color) !important;
+}
 
-/* Media Queries */
-@media (max-width: 600px) {
-  .card-container {
-    margin: var(--spacing-sm);
-    padding: var(--spacing-sm);
-  }
+/* Estilo para o botão FAB */
+.status-fab {
+  background-color: var(--primary-color) !important;
+  color: white !important;
+}
 
-  .title {
-    font-size: var(--font-size-lg);
-  }
+.status-fab:hover {
+  background-color: #b91c1c !important;
+  color: white !important;
+}
+
+html, body {
+  height: 100%;
 }

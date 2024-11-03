@@ -1,44 +1,54 @@
 <mat-card class="status-card">
-  <mat-card-header>
-    <mat-card-title class="status-title">Status do Pedido</mat-card-title>
-    <mat-card-subtitle>
-      Aguarde alguns minutos, logo menos chegaremos com o seu Pedido!
-    </mat-card-subtitle>
-  </mat-card-header>
+    <mat-card-header>
+        <mat-card-title>Status do Pedido</mat-card-title>
+    </mat-card-header>
 
-  <mat-card-content>
-    <mat-stepper [selectedIndex]="currentStatus" orientation="vertical">
-      <!-- Preparando -->
-      <mat-step [completed]="currentStatus > OrderStatus.PREPARANDO">
-        <ng-template matStepLabel>
-          {{ getStatusLabel(OrderStatus.PREPARANDO) }}
-        </ng-template>
-        <p>Seu pedido está sendo preparado.</p>
-      </mat-step>
+    <mat-card-content>
+        <p class="status-message">Aguarde alguns minutos, logo menos chegaremos com o seu Pedido!</p>
 
-      <!-- Pronto -->
-      <mat-step [completed]="currentStatus > OrderStatus.PRONTO">
-        <ng-template matStepLabel>
-          {{ getStatusLabel(OrderStatus.PRONTO) }}
-        </ng-template>
-        <p>Seu pedido está pronto para ser retirado e logo será enviado.</p>
-      </mat-step>
+        <mat-stepper orientation="vertical" [linear]="true">
+            <mat-step [completed]="getStepCompleted(OrderStatus.PREPARANDO)" [state]="getStepState(OrderStatus.PREPARANDO)">
+                <ng-template matStepLabel>
+              <span [class.active-step]="currentStatus === OrderStatus.PREPARANDO">
+                Em Preparo
+              </span>
+                </ng-template>
+            </mat-step>
 
-      <!-- Enviando -->
-      <mat-step [completed]="currentStatus > OrderStatus.ENVIANDO">
-        <ng-template matStepLabel>
-          {{ getStatusLabel(OrderStatus.ENVIANDO) }}
-        </ng-template>
-        <p>Aguarde mais um pouco, seu pedido já saiu para entrega.</p>
-      </mat-step>
+            <mat-step [completed]="getStepCompleted(OrderStatus.PRONTO)" [state]="getStepState(OrderStatus.PRONTO)">
+                <ng-template matStepLabel>
+              <span [class.active-step]="currentStatus === OrderStatus.PRONTO">
+                Pedido Pronto
+              </span>
+                </ng-template>
+            </mat-step>
 
-      <!-- Entregue -->
-      <mat-step [completed]="currentStatus >= OrderStatus.ENTREGUE">
-        <ng-template matStepLabel>
-          {{ getStatusLabel(OrderStatus.ENTREGUE) }}
-        </ng-template>
-        <p>Seu pedido foi finalizado com sucesso! Por favor, confirme sua entrega.</p>
-      </mat-step>
-    </mat-stepper>
-  </mat-card-content>
+            <mat-step [completed]="getStepCompleted(OrderStatus.ENVIANDO)" [state]="getStepState(OrderStatus.ENVIANDO)">
+                <ng-template matStepLabel>
+              <span [class.active-step]="currentStatus === OrderStatus.ENVIANDO">
+                Saiu Para Entrega
+              </span>
+                </ng-template>
+            </mat-step>
+
+            <mat-step [completed]="getStepCompleted(OrderStatus.ENTREGUE)" [state]="getStepState(OrderStatus.ENTREGUE)">
+                <ng-template matStepLabel>
+              <span [class.active-step]="currentStatus === OrderStatus.ENTREGUE">
+                Pedido Entregue
+              </span>
+                </ng-template>
+            </mat-step>
+        </mat-stepper>
+    </mat-card-content>
+
+    <mat-card-actions class="card-actions">
+        <button
+                mat-raised-button
+                color="primary"
+                (click)="confirmDelivery()"
+                *ngIf="currentStatus === OrderStatus.ENVIANDO">
+            Pedido Recebido
+        </button>
+        <button mat-button (click)="close()">Fechar</button>
+    </mat-card-actions>
 </mat-card>

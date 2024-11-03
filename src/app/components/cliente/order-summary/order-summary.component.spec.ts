@@ -1,18 +1,18 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { StatusViewComponent } from './status-view.component';
+import { OrderSummaryComponent } from './order-summary.component';
 
-describe('StatusViewComponent', () => {
-  let component: StatusViewComponent;
-  let fixture: ComponentFixture<StatusViewComponent>;
+describe('OrderSummaryComponent', () => {
+  let component: OrderSummaryComponent;
+  let fixture: ComponentFixture<OrderSummaryComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [StatusViewComponent]
+      imports: [OrderSummaryComponent]
     })
     .compileComponents();
 
-    fixture = TestBed.createComponent(StatusViewComponent);
+    fixture = TestBed.createComponent(OrderSummaryComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

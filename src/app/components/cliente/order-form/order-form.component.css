@@ -1,0 +1,12 @@
+.form-fields {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  padding: 1rem;
+}
+
+mat-card-actions {
+  display: flex;
+  justify-content: flex-end;
+  padding: 1rem;
+}

@@ -1,0 +1,54 @@
+<form [formGroup]="orderForm" (ngSubmit)="onSubmit()">
+  <mat-card>
+    <mat-card-header>
+      <mat-card-title>Dados de Entrega</mat-card-title>
+    </mat-card-header>
+
+    <mat-card-content>
+      <div class="form-fields">
+        <mat-form-field appearance="outline">
+          <mat-label>Nome</mat-label>
+          <input matInput formControlName="name" required>
+          <mat-error *ngIf="orderForm.get('name')?.hasError('required')">
+            Nome é obrigatório
+          </mat-error>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+          <mat-label>Telefone</mat-label>
+          <input matInput formControlName="phone" required>
+          <mat-error *ngIf="orderForm.get('phone')?.hasError('required')">
+            Telefone é obrigatório
+          </mat-error>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+          <mat-label>Endereço</mat-label>
+          <textarea matInput formControlName="address" required></textarea>
+          <mat-error *ngIf="orderForm.get('address')?.hasError('required')">
+            Endereço é obrigatório
+          </mat-error>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+          <mat-label>Forma de Pagamento</mat-label>
+          <mat-select formControlName="pagamento" required>
+            <mat-option [value]="Pagamento.DINHEIRO">Dinheiro</mat-option>
+            <mat-option [value]="Pagamento.PIX">PIX</mat-option>
+            <mat-option [value]="Pagamento.CARTAO">Cartão</mat-option>
+          </mat-select>
+          <mat-error *ngIf="orderForm.get('pagamento')?.hasError('required')">
+            Forma de pagamento é obrigatória
+          </mat-error>
+        </mat-form-field>
+      </div>
+    </mat-card-content>
+
+    <mat-card-actions>
+      <button mat-raised-button color="primary" type="submit"
+              [disabled]="orderForm.invalid || !orderItems.length">
+        Criar Pedido
+      </button>
+    </mat-card-actions>
+  </mat-card>
+</form>

@@ -1,0 +1,29 @@
+<div class="carousel-container">
+  <button mat-icon-button (click)="prevSlide()" [disabled]="currentIndex === 0">
+    <mat-icon>chevron_left</mat-icon>
+  </button>
+
+  <div class="carousel-items">
+    <mat-card *ngFor="let dish of visibleDishes" class="dish-card">
+      <img mat-card-image [src]="'data:image/jpeg;base64,' + dish.image" [alt]="dish.name" class="dish-image">
+      <mat-card-content>
+        <h2>{{dish.name}}</h2>
+        <p>{{dish.description}}</p>
+        <p class="price">R$ {{dish.price.toFixed(2)}}</p>
+      </mat-card-content>
+      <mat-card-actions>
+        <button mat-icon-button (click)="decreaseQuantity(dish)">
+          <mat-icon>remove</mat-icon>
+        </button>
+        <span>{{getQuantity(dish)}}</span>
+        <button mat-icon-button (click)="increaseQuantity(dish)">
+          <mat-icon>add</mat-icon>
+        </button>
+      </mat-card-actions>
+    </mat-card>
+  </div>
+
+  <button mat-icon-button (click)="nextSlide()" [disabled]="currentIndex >= dishes.length - itemsToShow">
+    <mat-icon>chevron_right</mat-icon>
+  </button>
+</div>
