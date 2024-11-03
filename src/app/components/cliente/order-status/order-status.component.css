@@ -41,18 +41,18 @@
 .custom-step {
   display: flex;
   align-items: center;
-  padding: 24px 24px 24px 24px;
+  padding: 15px 15px 15px 15px;
   position: relative;
-  margin-left: 24px;
+  margin-left: 10px;
 }
 
 .custom-step::before {
-  content: '';
+
   position: absolute;
   left: 0;
   top: 0;
-  height: 100%;
-  border-left: 2px solid #e5e7eb;
+  height: 60%;
+  border-left: 0.5px solid #6b7280;
   margin-left: 12px;
 }
 
@@ -73,8 +73,8 @@
   width: 24px;
   height: 24px;
   border-radius: 50%;
-  background-color: #e5e7eb;  /* Default gray background */
-  color: #6b7280;  /* Default gray text */
+  background-color: #333;  /* Default gray background */
+  color: #333;  /* Default gray text */
   font-size: 14px;
   transition: all 0.3s ease;
 }

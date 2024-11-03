@@ -39,31 +39,6 @@ body {
   height: 100%;
 }
 
-/* Estilos do Stepper */
-.mat-step-header.current-step .mat-step-icon {
-  background-color: var(--primary-color) !important;
-  color: white !important;
-}
-
-.mat-step-header.completed-step .mat-step-icon {
-  background-color: var(--success-color) !important;
-  color: white !important;
-}
-
-.mat-step-header .mat-step-icon-selected {
-  background-color: var(--primary-color) !important;
-  color: white !important;
-}
-
-.mat-step-header .mat-step-icon-state-done {
-  background-color: var(--success-color) !important;
-  color: white !important;
-}
-
-.mat-stepper-vertical-line::before {
-  border-left-color: var(--primary-color) !important;
-}
-
 /* Estilo para o botão FAB */
 .status-fab {
   background-color: var(--primary-color) !important;
