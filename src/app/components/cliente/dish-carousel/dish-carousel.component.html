@@ -5,7 +5,7 @@
 
   <div class="carousel-items">
     <mat-card *ngFor="let dish of visibleDishes" class="dish-card">
-      <img mat-card-image [src]="'data:image/jpeg;base64,' + dish.image" [alt]="dish.name" class="dish-image">
+      <img mat-card-image [src]="dish.image" [alt]="dish.name" class="dish-image">
       <mat-card-content>
         <h2>{{dish.name}}</h2>
         <p>{{dish.description}}</p>
