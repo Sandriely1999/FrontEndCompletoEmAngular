@@ -20,6 +20,10 @@ export class PedidoService {
     return this.http.get<OrderResponse[]>(`${this.ordersUrl}/listaPedidosPronto`);
   }
 
+  listaPedidosEnviando(): Observable<OrderResponse[]> {
+    return this.http.get<OrderResponse[]>(`${this.ordersUrl}/listaPedidosEnviando`);
+  }
+
   getPedidoById(orderId: number): Observable<OrderResponse> {
     return this.http.get<OrderResponse>(`${this.ordersUrl}/${orderId}`);
   }

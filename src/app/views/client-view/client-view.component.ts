@@ -8,6 +8,7 @@ import {OrderFormComponent} from '../../components/cliente/order-form/order-form
 import {OrderSummaryComponent} from '../../components/cliente/order-summary/order-summary.component';
 import {DishCarouselComponent} from '../../components/cliente/dish-carousel/dish-carousel.component';
 import {OrderStatusComponent} from '../../components/cliente/order-status/order-status.component';
+import {MatTooltip} from '@angular/material/tooltip';
 
 @Component({
   selector: 'app-client-view',
@@ -21,7 +22,8 @@ import {OrderStatusComponent} from '../../components/cliente/order-status/order-
     MatIconModule,
     OrderFormComponent,
     OrderSummaryComponent,
-    DishCarouselComponent
+    DishCarouselComponent,
+    MatTooltip
   ],
   templateUrl: './client-view.component.html',
   styleUrls: ['./client-view.component.css']

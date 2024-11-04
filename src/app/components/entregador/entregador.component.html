@@ -1,38 +1,51 @@
 <div class="pedidos-container">
-  <header>
-    <h1>VEM COMER</h1>
-    <p>PEÇA FÁCIL, COMA FELIZ</p>
-  </header>
-  <div *ngFor="let order of orderResponses" class="pedido-card">
-    <div class="pedido-header">
-      <span class="pedido-title">PEDIDO</span>
-      <span class="pedido-id">#{{ order.orderId }}</span>
-    </div>
+  <div class="entregador-header">
+    <mat-icon class="header-icon">delivery_dining</mat-icon>
+    <h2 class="header-title">Pedidos para Entrega</h2>
+  </div>
 
-    <div class="pedido-info">
-      <div class="info-row">
-        <span class="label">Nome:</span>
-        <span class="value">{{ order.userResponse.name }}</span>
-      </div>
-      <div class="info-row">
-        <span class="label">Telefone:</span>
-        <span class="value">{{ order.userResponse.phone }}</span>
-      </div>
-      <div class="info-row">
-        <span class="label">Endereço:</span>
-        <span class="value">{{ order.userResponse.address }}</span>
-      </div>
-    </div>
+  <div class="pedidos-grid">
+    <mat-card class="pedido-card" *ngFor="let order of orderResponses">
+      <div class="pedido-header">
+        <div class="pedido-title">
+          <span class="pedido-label">PEDIDO</span>
+          <span class="pedido-id">#{{ order.orderId }}</span>
+        </div>
 
-    <div class="pedido-footer">
-      <span class="status">
-        {{ order.orderStatus }}
-      </span>
-      <span class="valor">R$ {{ order.totalPrice.toFixed(2) }}</span>
-    </div>
+      </div>
 
-    <div class="pedido-action">
-      <button class="btn-iniciar-trajeto" (click)="iniciarTrajeto(order.orderId)">Iniciar Trajeto</button>
-    </div>
+      <div class="pedido-info">
+        <div class="info-row">
+          <mat-icon>person</mat-icon>
+          <span class="label">Nome:</span>
+          <span class="value">{{ order.userResponse.name }}</span>
+        </div>
+
+        <div class="info-row">
+          <mat-icon>phone</mat-icon>
+          <span class="label">Telefone:</span>
+          <span class="value">{{ order.userResponse.phone }}</span>
+        </div>
+
+        <div class="info-row">
+          <mat-icon>home</mat-icon>
+          <span class="label">Endereço:</span>
+          <span class="value">{{ order.userResponse.address }}</span>
+        </div>
+
+        <div class="price-row">
+          <span class="price-label">Total do Pedido:</span>
+          <span class="price-value">R$ {{ order.totalPrice.toFixed(2) }}</span>
+        </div>
+      </div>
+
+      <button class="iniciar-trajeto-btn" (click)="iniciarEntrega(order.orderId)">
+        <mat-icon>directions_bike</mat-icon>
+        <span>Iniciar Trajeto</span>
+      </button>
+
+
+    </mat-card>
   </div>
 </div>
+

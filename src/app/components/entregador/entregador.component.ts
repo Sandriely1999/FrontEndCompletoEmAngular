@@ -1,47 +1,54 @@
 import { Component, OnInit } from '@angular/core';
-import { PedidoService } from '../../services/pedido.service';
-import {CommonModule} from "@angular/common";
+import { CommonModule } from '@angular/common';
+import { MatCardModule } from '@angular/material/card';
+import { MatIconModule } from '@angular/material/icon';
+import { MatButtonModule } from '@angular/material/button';
+import { OrderStatus} from '../../models/orderstatus.enum';
 import {OrderResponse} from '../../models/responses/order.response';
+import {PedidoService} from '../../services/pedido.service';
 
 
 @Component({
   selector: 'app-entregador',
   standalone: true,
-  imports: [CommonModule],
+  imports: [
+    CommonModule,
+    MatCardModule,
+    MatIconModule,
+    MatButtonModule
+  ],
   templateUrl: './entregador.component.html',
   styleUrls: ['./entregador.component.css']
 })
-
 export class EntregadorComponent implements OnInit {
   orderResponses: OrderResponse[] = [];
-
+  OrderStatus = OrderStatus; // Para usar o enum no template
 
   constructor(private pedidoService: PedidoService) {}
 
   ngOnInit() {
-    this.carregarPedidos();
+    this.carregarPedidosProntos();
   }
 
-  carregarPedidos() {
+  carregarPedidosProntos() {
     this.pedidoService.listaPedidosPronto().subscribe({
-      next: (response) => {
-        this.orderResponses = response;
+      next: (pedidos) => {
+        this.orderResponses = pedidos;
       },
-      error: (erro) => {
-        console.error('Erro ao carregar pedidos:', erro);
+      error: (error) => {
+        console.error('Erro ao carregar pedidos:', error);
       }
     });
   }
 
-  // Novo método para iniciar o trajeto
-  iniciarTrajeto(orderId: number) {
+
+  iniciarEntrega(orderId: number) {
     this.pedidoService.trocarStatusParaEnviando(orderId).subscribe({
       next: () => {
-        console.log(`Status do pedido #${orderId} atualizado para Enviando`);
-        this.carregarPedidos(); // Recarrega os pedidos para obter a atualização
+        this.carregarPedidosProntos();
       },
-      error: (erro) => {
-        console.error(`Erro ao iniciar o trajeto do pedido #${orderId}:`, erro);
+      error: (error) => {
+        console.error('Erro ao iniciar entrega:', error);
       }
     });
   }

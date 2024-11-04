@@ -1,25 +1,33 @@
 <div class="client-page">
-  <h1>Faça seu Pedido</h1>
+  <div class="header-container">
+    <h1 class="main-title">
+      <mat-icon class="title-icon">restaurant_menu</mat-icon>
+      Faça seu Pedido
+    </h1>
+    <p class="subtitle">Escolha seus pratos favoritos e aproveite!</p>
+  </div>
 
-  <app-dish-carousel
-    (orderItemsChange)="updateOrderItems($event)">
-  </app-dish-carousel>
+  <div class="content-container">
+    <app-dish-carousel
+      (orderItemsChange)="updateOrderItems($event)">
+    </app-dish-carousel>
 
-  <app-order-summary
-    [orderItems]="selectedOrderItems"
-    (orderItemsChange)="updateOrderItems($event)">
-  </app-order-summary>
+    <app-order-summary
+      [orderItems]="selectedOrderItems"
+      (orderItemsChange)="updateOrderItems($event)">
+    </app-order-summary>
 
-  <app-order-form
-    [orderItems]="selectedOrderItems"
-    (orderCreated)="onOrderCreated($event)">
-  </app-order-form>
+    <app-order-form
+      [orderItems]="selectedOrderItems"
+      (orderCreated)="onOrderCreated($event)">
+    </app-order-form>
+  </div>
 
-  <button
-    *ngIf="showStatusButton"
-    mat-fab
-    class="status-fab"
-    (click)="openOrderStatus()">
+  <button mat-fab
+          class="status-fab"
+          (click)="openOrderStatus()"
+          matTooltip="Acompanhar Pedido"
+          matTooltipPosition="left">
     <mat-icon>local_shipping</mat-icon>
   </button>
 </div>

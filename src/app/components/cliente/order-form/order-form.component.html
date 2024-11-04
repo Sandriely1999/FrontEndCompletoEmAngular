@@ -1,54 +1,79 @@
-<form [formGroup]="orderForm" (ngSubmit)="onSubmit()">
-  <mat-card>
-    <mat-card-header>
-      <mat-card-title>Dados de Entrega</mat-card-title>
-    </mat-card-header>
+<mat-card class="order-form-card">
+  <mat-card-header>
+    <mat-card-title class="form-title">
+      <mat-icon>local_shipping</mat-icon>
+      Dados de Entrega
+    </mat-card-title>
+  </mat-card-header>
 
-    <mat-card-content>
-      <div class="form-fields">
-        <mat-form-field appearance="outline">
-          <mat-label>Nome</mat-label>
-          <input matInput formControlName="name" required>
-          <mat-error *ngIf="orderForm.get('name')?.hasError('required')">
-            Nome é obrigatório
-          </mat-error>
-        </mat-form-field>
+  <mat-card-content>
+    <form [formGroup]="orderForm" class="form-fields">
+      <mat-form-field appearance="outline">
+        <mat-label>Nome</mat-label>
+        <input matInput formControlName="name" placeholder="Digite seu nome completo">
+        <mat-icon matSuffix>person</mat-icon>
+        <mat-error *ngIf="orderForm.get('name')?.invalid && orderForm.get('name')?.touched">
+          {{getErrorMessage('name')}}
+        </mat-error>
+      </mat-form-field>
 
-        <mat-form-field appearance="outline">
-          <mat-label>Telefone</mat-label>
-          <input matInput formControlName="phone" required>
-          <mat-error *ngIf="orderForm.get('phone')?.hasError('required')">
-            Telefone é obrigatório
-          </mat-error>
-        </mat-form-field>
+      <mat-form-field appearance="outline">
+        <mat-label>Telefone</mat-label>
+        <input matInput
+               formControlName="phone"
+               placeholder="11999999999"
+               type="tel">
+        <mat-icon matSuffix>phone</mat-icon>
+        <mat-error *ngIf="orderForm.get('phone')?.invalid && orderForm.get('phone')?.touched">
+          {{getErrorMessage('phone')}}
+        </mat-error>
+      </mat-form-field>
 
-        <mat-form-field appearance="outline">
-          <mat-label>Endereço</mat-label>
-          <textarea matInput formControlName="address" required></textarea>
-          <mat-error *ngIf="orderForm.get('address')?.hasError('required')">
-            Endereço é obrigatório
-          </mat-error>
-        </mat-form-field>
+      <mat-form-field appearance="outline">
+        <mat-label>Endereço</mat-label>
+        <textarea matInput
+                  formControlName="address"
+                  placeholder="Digite seu endereço completo"
+                  rows="3">
+        </textarea>
+        <mat-icon matSuffix>home</mat-icon>
+        <mat-error *ngIf="orderForm.get('address')?.invalid && orderForm.get('address')?.touched">
+          {{getErrorMessage('address')}}
+        </mat-error>
+      </mat-form-field>
 
-        <mat-form-field appearance="outline">
-          <mat-label>Forma de Pagamento</mat-label>
-          <mat-select formControlName="pagamento" required>
-            <mat-option [value]="Pagamento.DINHEIRO">Dinheiro</mat-option>
-            <mat-option [value]="Pagamento.PIX">PIX</mat-option>
-            <mat-option [value]="Pagamento.CARTAO">Cartão</mat-option>
-          </mat-select>
-          <mat-error *ngIf="orderForm.get('pagamento')?.hasError('required')">
-            Forma de pagamento é obrigatória
-          </mat-error>
-        </mat-form-field>
-      </div>
-    </mat-card-content>
+      <mat-form-field appearance="outline">
+        <mat-label>Forma de Pagamento</mat-label>
+        <mat-select formControlName="pagamento">
+          <mat-option [value]="Pagamento.DINHEIRO">
+            <mat-icon>payments</mat-icon> Dinheiro
+          </mat-option>
+          <mat-option [value]="Pagamento.PIX">
+            <mat-icon>qr_code</mat-icon> PIX
+          </mat-option>
+          <mat-option [value]="Pagamento.CARTAO">
+            <mat-icon>credit_card</mat-icon> Cartão
+          </mat-option>
+        </mat-select>
+        <mat-icon matSuffix>payment</mat-icon>
+        <mat-error *ngIf="orderForm.get('pagamento')?.invalid && orderForm.get('pagamento')?.touched">
+          {{getErrorMessage('pagamento')}}
+        </mat-error>
+      </mat-form-field>
+    </form>
+  </mat-card-content>
 
-    <mat-card-actions>
-      <button mat-raised-button color="primary" type="submit"
-              [disabled]="orderForm.invalid || !orderItems.length">
-        Criar Pedido
-      </button>
-    </mat-card-actions>
-  </mat-card>
-</form>
+  <mat-card-actions>
+    <button mat-button (click)="resetForm()" color="warn">
+      <mat-icon>clear</mat-icon>
+      Limpar
+    </button>
+    <button mat-raised-button
+            color="primary"
+            (click)="onSubmit()"
+            [disabled]="!orderForm.valid || orderItems.length === 0">
+      <mat-icon>check_circle</mat-icon>
+      Criar Pedido
+    </button>
+  </mat-card-actions>
+</mat-card>

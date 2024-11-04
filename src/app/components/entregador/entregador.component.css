@@ -1,94 +1,235 @@
 .pedidos-container {
-  padding: 16px;
-  max-width: 600px;
+  padding: 2rem;
+  max-width: 800px;
   margin: 0 auto;
+  background-color: #f8fafc;
+}
+
+.entregador-header {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+  margin-bottom: 2rem;
+  text-align: center;
+}
+
+.header-icon {
+  font-size: 2.5rem;
+  width: 2.5rem;
+  height: 2.5rem;
+  color: #e44d4d;
+}
+
+.header-title {
+  font-size: 1.8rem;
+  color: #2c3e50;
+  margin: 0;
+  font-weight: 600;
+}
+
+.pedidos-grid {
+  display: grid;
+  gap: 1.5rem;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
 }
 
 .pedido-card {
   background: white;
-  border-radius: 8px;
-  margin-bottom: 16px;
-  padding: 16px;
-  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  border-radius: 12px;
+  overflow: hidden;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1),
+  0 2px 4px -2px rgba(0, 0, 0, 0.1);
+  animation: fadeIn 0.3s ease-out forwards;
+}
 
-  &.pedido-pronto {
-    border-left: 4px solid #28a745;
-  }
+.pedido-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1),
+  0 4px 6px -4px rgba(0, 0, 0, 0.1);
 }
 
 .pedido-header {
+  padding: 1.5rem;
+  border-bottom: 1px solid #e5e7eb;
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 16px;
+}
 
-  .pedido-title {
-    font-weight: bold;
-    color: #333;
-  }
+.pedido-title {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
 
-  .pedido-id {
-    color: #666;
-  }
+.pedido-label {
+  font-weight: 600;
+  color: #4b5563;
+}
+
+.pedido-id {
+  color: #e44d4d;
+  font-weight: 600;
 }
 
 .pedido-info {
-  .info-row {
-    display: flex;
-    margin-bottom: 8px;
-
-    .label {
-      min-width: 80px;
-      color: #666;
-    }
-
-    .value {
-      color: #333;
-      flex: 1;
-    }
-  }
+  padding: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
 }
 
-.pedido-footer {
+.info-row {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  margin-bottom: 1rem;
+}
+
+.info-row mat-icon {
+  color: #6b7280;
+  font-size: 1.25rem;
+}
+
+.label {
+  color: #6b7280;
+  min-width: 80px;
+  font-weight: 500;
+}
+
+.value {
+  color: #1f2937;
+  flex: 1;
+}
+
+.price-row {
+  margin-top: 1.5rem;
+  padding-top: 1rem;
+  border-top: 1px solid #e5e7eb;
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-top: 16px;
-  padding-top: 16px;
-  border-top: 1px solid #eee;
+}
 
-  .status {
-    padding: 4px 8px;
-    border-radius: 4px;
-    font-size: 14px;
+.price-label {
+  color: #4b5563;
+  font-weight: 500;
+}
 
-    &.status-pronto {
-      background: #28a745;
-      color: white;
-    }
+.price-value {
+  color: #e44d4d;
+  font-size: 1.25rem;
+  font-weight: 600;
+}
+
+/* Status chip styles */
+.status-chip {
+  padding: 0.5rem 1rem;
+  border-radius: 9999px;
+  font-size: 0.875rem;
+  font-weight: 500;
+  text-align: center;
+}
+
+.status-preparando {
+  background-color: #fef3c7;
+  color: #92400e;
+}
+
+.status-pronto {
+  background-color: #dcfce7;
+  color: #166534;
+}
+
+.status-enviando {
+  background-color: #dbeafe;
+  color: #1e40af;
+}
+
+.status-entregue {
+  background-color: #f1f5f9;
+  color: #475569;
+}
+
+/* Pedido action and button styles */
+.pedido-action {
+  padding: 1rem 1.5rem;
+  display: flex;
+  justify-content: center;
+  background-color: #f9fafb;
+  border-top: 1px solid #e5e7eb;
+  margin: 0;
+}
+
+.iniciar-trajeto-btn {
+  width: 100%;
+  padding: 0.75rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.75rem;
+  background-color: #e44d4d;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-size: 1rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.iniciar-trajeto-btn:hover {
+  background-color: #d03636;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 6px -1px rgba(228, 77, 77, 0.2);
+}
+
+.iniciar-trajeto-btn:active {
+  transform: translateY(0);
+}
+
+.iniciar-trajeto-btn mat-icon {
+  font-size: 1.25rem;
+  width: 1.25rem;
+  height: 1.25rem;
+}
+
+/* Responsividade */
+@media (max-width: 768px) {
+  .pedidos-container {
+    padding: 1rem;
   }
 
-  .valor {
-    font-weight: bold;
-    color: #333;
+  .header-title {
+    font-size: 1.5rem;
+  }
+
+  .header-icon {
+    font-size: 2rem;
+    width: 2rem;
+    height: 2rem;
+  }
+
+  .pedidos-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .iniciar-trajeto-btn {
+    padding: 0.625rem;
+    font-size: 0.875rem;
   }
 }
-  .pedido-action {
-    display: flex; /* Torna o container do botão flexível */
-    justify-content: center; /* Centraliza o botão horizontalmente */
-    margin-top: 15px; /* Adiciona um espaçamento superior (opcional) */
-  }
 
-  .btn-iniciar-trajeto {
-    padding: 10px 20px; /* Tamanho do botão */
-    background-color: #007bff; /* Cor de fundo */
-    color: white; /* Cor do texto */
-    border: none; /* Remove a borda padrão */
-    border-radius: 4px; /* Bordas arredondadas */
-    cursor: pointer; /* Cursor de ponteiro para indicar interatividade */
+/* Animação de entrada */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
   }
-
-  .btn-iniciar-trajeto:hover {
-    background-color: #0056b3; /* Cor de fundo ao passar o mouse */
+  to {
+    opacity: 1;
+    transform: translateY(0);
   }
-
+}

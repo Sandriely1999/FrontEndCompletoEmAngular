@@ -1,0 +1,93 @@
+.app-header {
+  background: linear-gradient(to right, rgba(228, 77, 77, 0.05), rgba(248, 113, 113, 0.05));
+  padding: 0.5rem 0;
+  border-bottom: 1px solid rgba(228, 77, 77, 0.1);
+}
+
+.header-content {
+  max-width: 1200px;
+  margin: 0 auto;
+  text-align: center;
+  padding: 0 0.5rem;
+}
+
+.main-heading {
+  font-size: 1.8rem;
+  color: #e44d4d;
+  font-weight: 600;
+  margin: 0;
+  letter-spacing: 0.8px;
+  font-family: 'Poppins', sans-serif;
+}
+
+.sub-heading {
+  font-size: 1rem;
+  color: #666;
+  font-weight: 400;
+  margin: 0.5rem 0 0;
+  letter-spacing: 0.5px;
+}
+
+/* Animação sutil de entrada */
+@keyframes fadeSlideDown {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.main-heading, .sub-heading {
+  animation: fadeSlideDown 0.5s ease-out forwards;
+}
+
+.sub-heading {
+  animation-delay: 0.1s;
+}
+
+/* Responsividade */
+@media (max-width: 768px) {
+  .app-header {
+    padding: 1.25rem 0;
+  }
+
+  .main-heading {
+    font-size: 1.5rem;
+  }
+
+  .sub-heading {
+    font-size: 0.9rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .app-header {
+    padding: 1rem 0;
+  }
+
+  .main-heading {
+    font-size: 1.3rem;
+  }
+
+  .sub-heading {
+    font-size: 0.8rem;
+  }
+}
+
+/* Hover effect sutil */
+.main-heading:hover {
+  transform: scale(1.02);
+  transition: transform 0.3s ease;
+}
+
+/* Print styles */
+@media print {
+  .app-header {
+    background: none;
+    border-bottom: 1px solid #ddd;
+    padding: 1rem 0;
+  }
+}
