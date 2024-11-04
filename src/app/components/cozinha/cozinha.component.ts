@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit, TemplateRef, ViewChild} from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { NewDishRequest } from '../../models/requests/dish.request';
@@ -6,6 +6,24 @@ import {CozinhaService} from '../../services/cozinha.service';
 import {OrderResponse} from '../../models/responses/order.response';
 import {DishResponse} from '../../models/responses/dish.response';
 import {MatSnackBar} from '@angular/material/snack-bar';
+import {MatButton, MatIconButton} from '@angular/material/button';
+import {MatDialog, MatDialogActions, MatDialogContent, MatDialogTitle} from '@angular/material/dialog';
+import {MatError, MatFormField, MatLabel, MatPrefix} from '@angular/material/form-field';
+import {MatIcon} from '@angular/material/icon';
+import {MatInput} from '@angular/material/input';
+import {MatTooltip} from '@angular/material/tooltip';
+import {
+  MatCard,
+  MatCardActions,
+  MatCardContent,
+  MatCardHeader,
+  MatCardImage,
+  MatCardSubtitle,
+  MatCardTitle
+} from '@angular/material/card';
+import {MatList, MatListItem} from '@angular/material/list';
+import {MatChip} from '@angular/material/chips';
+import {MatToolbar} from '@angular/material/toolbar';
 
 @Component({
   selector: 'app-cozinha',
@@ -14,10 +32,35 @@ import {MatSnackBar} from '@angular/material/snack-bar';
   standalone: true,
   imports: [
     CommonModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    MatButton,
+    MatDialogActions,
+    MatError,
+    MatPrefix,
+    MatIcon,
+    MatLabel,
+    MatFormField,
+    MatInput,
+    MatDialogTitle,
+    MatDialogContent,
+    MatTooltip,
+    MatIconButton,
+    MatCardActions,
+    MatCardContent,
+    MatCardSubtitle,
+    MatCardTitle,
+    MatCardHeader,
+    MatCardImage,
+    MatCard,
+    MatListItem,
+    MatList,
+    MatChip,
+    MatToolbar
   ]
 })
 export class CozinhaComponent implements OnInit {
+  @ViewChild('dishDialog') dishDialog!: TemplateRef<any>;
+
   orders: OrderResponse[] = [];
   dishes: DishResponse[] = [];
   dishForm: FormGroup;
@@ -28,11 +71,11 @@ export class CozinhaComponent implements OnInit {
   constructor(
     private cozinhaService: CozinhaService,
     private fb: FormBuilder,
-    private snackBar: MatSnackBar
+    private snackBar: MatSnackBar,
+    private dialog: MatDialog
   ) {
     this.dishForm = this.createDishForm();
   }
-
   ngOnInit() {
     this.loadOrders();
     this.loadDishes();
@@ -96,11 +139,13 @@ export class CozinhaComponent implements OnInit {
       this.imagePreview = null;
     }
 
-    this.showDishModal = true;
+    this.dialog.open(this.dishDialog, {
+      width: '500px'
+    });
   }
 
   closeModal() {
-    this.showDishModal = false;
+    this.dialog.closeAll();
     this.imagePreview = null;
     this.dishForm.reset();
   }

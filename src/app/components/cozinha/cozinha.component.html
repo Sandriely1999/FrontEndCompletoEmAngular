@@ -1,97 +1,162 @@
 <div class="kitchen-dashboard">
-  <!-- Orders Section -->
-  <section class="orders-section">
-    <h2>Pedidos em Preparação</h2>
-    <div class="orders-grid">
-      <div *ngFor="let order of orders" class="order-card">
-        <div class="order-header">
-          <span class="order-id">Pedido #{{order.orderId}}</span>
-          <span class="order-time">{{order.dataHora | date:'HH:mm'}}</span>
-        </div>
-        <div class="order-customer">Cliente: {{order.userResponse.name}}</div>
-        <div class="order-items">
-          <div *ngFor="let item of order.orderItemsResponse" class="order-item">
-            <span>{{item.quantity}}x</span>
-            <span>{{item.dishResponse.name}}</span>
+  <mat-toolbar color="primary">
+    <div class="toolbar-content">
+      <mat-icon>restaurant</mat-icon>
+      <span>Painel da Cozinha</span>
+    </div>
+  </mat-toolbar>
+
+  <div class="dashboard-container">
+    <section class="orders-section">
+      <mat-card>
+        <mat-card-header>
+          <div class="section-title">
+            <mat-icon>receipt_long</mat-icon>
+            <span>Pedidos em Preparação</span>
           </div>
-        </div>
-        <div class="order-footer">
-          <span class="order-total">Total: R$ {{order.totalPrice | number:'1.2-2'}}</span>
-          <button class="ready-button" (click)="markOrderAsReady(order.orderId)">
-            Marcar como Pronto
-          </button>
-        </div>
-      </div>
-    </div>
-  </section>
+        </mat-card-header>
 
-  <!-- Menu Section -->
-  <section class="menu-section">
-    <div class="menu-header">
-      <h2>Catálogo de Produtos</h2>
-      <button class="add-dish-button" (click)="openDishModal()">
-        Adicionar Novo Prato
-      </button>
-    </div>
+        <mat-card-content>
+          <div class="orders-grid">
+            <mat-card class="order-card" *ngFor="let order of orders">
+              <mat-card-header>
+                <div class="order-header">
+                  <span class="order-id">Pedido #{{order.orderId}}</span>
+                  <mat-chip>{{order.dataHora | date:'HH:mm'}}</mat-chip>
+                </div>
+              </mat-card-header>
 
-    <div class="dishes-grid">
-      <div *ngFor="let dish of dishes" class="dish-card">
-        <img *ngIf="dish.image" [src]="dish.image" [alt]="dish.name" class="dish-image">
-        <div class="dish-info">
-          <h3>{{dish.name}}</h3>
-          <p>{{dish.description}}</p>
-          <p class="dish-price">R$ {{dish.price | number:'1.2-2'}}</p>
-        </div>
-        <div class="dish-actions">
-          <button class="edit-button" (click)="openDishModal(dish)">Editar</button>
-          <button class="toggle-button" (click)="toggleDishAvailability(dish.dishId)">
-            {{dish.availability ? 'Desativar' : 'Ativar'}}
-          </button>
-        </div>
-      </div>
-    </div>
-  </section>
+              <mat-card-content>
+                <div class="order-customer">
+                  <mat-icon>person</mat-icon>
+                  <span>{{order.userResponse.name}}</span>
+                </div>
 
-  <!-- Dish Modal -->
-  <div class="modal" *ngIf="showDishModal">
-    <div class="modal-content">
-      <h2>{{selectedDish ? 'Editar Prato' : 'Novo Prato'}}</h2>
+                <mat-list>
+                  <mat-list-item *ngFor="let item of order.orderItemsResponse">
+                    <mat-icon matListItemIcon>restaurant_menu</mat-icon>
+                    <div matListItemTitle>{{item.quantity}}x {{item.dishResponse.name}}</div>
+                  </mat-list-item>
+                </mat-list>
+              </mat-card-content>
 
-      <form [formGroup]="dishForm" (ngSubmit)="saveDish()">
-        <div class="form-group">
-          <label for="name">Nome</label>
-          <input id="name" type="text" formControlName="name">
-        </div>
-
-        <div class="form-group">
-          <label for="description">Descrição</label>
-          <textarea id="description" formControlName="description"></textarea>
-        </div>
-
-        <div class="form-group">
-          <label for="price">Preço</label>
-          <input id="price" type="number" formControlName="price" min="0" step="0.01">
-        </div>
-
-        <div class="form-group">
-          <label for="image">Imagem</label>
-          <input
-            id="image"
-            type="file"
-            accept="image/*"
-            (change)="onFileSelected($event)"
-          >
-
-          <div class="image-preview" *ngIf="imagePreview">
-            <img [src]="imagePreview" alt="Preview do prato" style="max-width: 200px; margin-top: 10px;">
+              <mat-card-actions>
+                <span class="order-total">
+                  Total: R$ {{order.totalPrice | number:'1.2-2'}}
+                </span>
+                <button mat-raised-button color="accent" (click)="markOrderAsReady(order.orderId)">
+                  <mat-icon>check_circle</mat-icon>
+                  Marcar como Pronto
+                </button>
+              </mat-card-actions>
+            </mat-card>
           </div>
-        </div>
+        </mat-card-content>
+      </mat-card>
+    </section>
 
-        <div class="modal-actions">
-          <button type="button" (click)="closeModal()">Cancelar</button>
-          <button type="submit" [disabled]="!dishForm.valid">Salvar</button>
-        </div>
-      </form>
-    </div>
+    <section class="menu-section">
+      <mat-card>
+        <mat-card-header>
+          <div class="section-title">
+            <mat-icon>menu_book</mat-icon>
+            <span>Catálogo de Produtos</span>
+          </div>
+          <div class="header-actions">
+            <button mat-raised-button color="primary" (click)="openDishModal()">
+              <mat-icon>add</mat-icon>
+              Adicionar Novo Prato
+            </button>
+          </div>
+        </mat-card-header>
+
+        <mat-card-content>
+          <div class="dishes-grid">
+            <mat-card class="dish-card" *ngFor="let dish of dishes">
+              <img *ngIf="dish.image" mat-card-image [src]="dish.image" [alt]="dish.name" class="dish-image">
+              <mat-card-header>
+                <mat-card-title>{{dish.name}}</mat-card-title>
+                <mat-card-subtitle>R$ {{dish.price | number:'1.2-2'}}</mat-card-subtitle>
+              </mat-card-header>
+              <mat-card-content>
+                <p>{{dish.description}}</p>
+              </mat-card-content>
+              <mat-card-actions>
+                <button mat-icon-button color="primary" (click)="openDishModal(dish)" matTooltip="Editar">
+                  <mat-icon>edit</mat-icon>
+                </button>
+                <button mat-icon-button [color]="dish.availability ? 'warn' : 'accent'"
+                        (click)="toggleDishAvailability(dish.dishId)"
+                        [matTooltip]="dish.availability ? 'Desativar' : 'Ativar'">
+                  <mat-icon>{{dish.availability ? 'toggle_on' : 'toggle_off'}}</mat-icon>
+                </button>
+              </mat-card-actions>
+            </mat-card>
+          </div>
+        </mat-card-content>
+      </mat-card>
+    </section>
   </div>
 </div>
+
+<ng-template #dishDialog>
+  <h2 mat-dialog-title>
+    <mat-icon>{{selectedDish ? 'edit' : 'add'}}</mat-icon>
+    {{selectedDish ? 'Editar Prato' : 'Novo Prato'}}
+  </h2>
+
+  <mat-dialog-content>
+    <form [formGroup]="dishForm">
+      <div class="form-row">
+        <mat-form-field appearance="outline">
+          <mat-label>Nome</mat-label>
+          <input matInput formControlName="name" required>
+          <mat-error *ngIf="dishForm.get('name')?.hasError('required')">
+            Nome é obrigatório
+          </mat-error>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+          <mat-label>Descrição</mat-label>
+          <textarea matInput formControlName="description" required rows="3"></textarea>
+          <mat-error *ngIf="dishForm.get('description')?.hasError('required')">
+            Descrição é obrigatória
+          </mat-error>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+          <mat-label>Preço</mat-label>
+          <mat-icon matPrefix>attach_money</mat-icon>
+          <input matInput type="number" formControlName="price" required min="0">
+          <mat-error *ngIf="dishForm.get('price')?.hasError('required')">
+            Preço é obrigatório
+          </mat-error>
+          <mat-error *ngIf="dishForm.get('price')?.hasError('min')">
+            Preço deve ser maior que zero
+          </mat-error>
+        </mat-form-field>
+      </div>
+
+      <div class="image-upload">
+        <input type="file" #fileInput hidden (change)="onFileSelected($event)" accept="image/*">
+        <button type="button" mat-stroked-button (click)="fileInput.click()">
+          <mat-icon>cloud_upload</mat-icon>
+          Escolher Imagem
+        </button>
+        <span class="file-name" *ngIf="imagePreview">Imagem selecionada</span>
+      </div>
+
+      <div class="image-preview" *ngIf="imagePreview">
+        <img [src]="imagePreview" alt="Preview">
+      </div>
+    </form>
+  </mat-dialog-content>
+
+  <mat-dialog-actions align="end">
+    <button mat-button (click)="closeModal()">Cancelar</button>
+    <button mat-raised-button color="primary" (click)="saveDish()" [disabled]="!dishForm.valid">
+      <mat-icon>save</mat-icon>
+      Salvar
+    </button>
+  </mat-dialog-actions>
+</ng-template>
